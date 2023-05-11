@@ -39,8 +39,19 @@ app.use(express.static("public"));
 //index for log
 
 //new route
-app.get("/new", (req, res) => {
+app.get("/logs/new", (req, res) => {
   res.render("New");
+});
+
+//create route
+app.post("/logs", async (req, res) => {
+  try {
+    req.body.shipIsBroken = req.body.shipIsBroken === "on";
+
+    res.send(req.body);
+  } catch (err) {
+    res.status(400).send(err);
+  }
 });
 
 // Listen
