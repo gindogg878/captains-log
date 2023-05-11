@@ -8,8 +8,8 @@ const logsSchema = new Schema(
     entry: String,
     shipIsBroken: Boolean,
   },
-  { timestamps }
+  { timestamps: true }
 );
 
 const Logs = model("Logs", logsSchema);
-module.exports = Fruit;
+module.exports = Logs;

@@ -4,6 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const { connect, connection } = require("mongoose");
 const methodOverride = require("method-override");
+const Logs = require("./models/logs");
 
 //Database connection
 connect(process.env.MONGO_URI, {
@@ -37,6 +38,14 @@ app.use(express.static("public"));
 // app.use("/fruits", fruitsController);
 
 //index for log
+app.get("/", async (req, res) => {
+  try {
+    const foundLog = await Logs.find({});
+    res.render("Index", { Logs: foundLog });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
 
 //new route
 app.get("/logs/new", (req, res) => {
@@ -47,7 +56,7 @@ app.get("/logs/new", (req, res) => {
 app.post("/logs", async (req, res) => {
   try {
     req.body.shipIsBroken = req.body.shipIsBroken === "on";
-    const newLog = await localStorage.create(req.body);
+    const newLog = await Logs.create(req.body);
     res.redirect("/logs");
   } catch (err) {
     res.status(400).send(err);
