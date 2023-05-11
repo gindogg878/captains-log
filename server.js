@@ -47,8 +47,8 @@ app.get("/logs/new", (req, res) => {
 app.post("/logs", async (req, res) => {
   try {
     req.body.shipIsBroken = req.body.shipIsBroken === "on";
-
-    res.send(req.body);
+    const newLog = await localStorage.create(req.body);
+    res.redirect("/logs");
   } catch (err) {
     res.status(400).send(err);
   }
