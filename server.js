@@ -56,6 +56,15 @@ app.get("/logs/new", (req, res) => {
   res.render("New");
 });
 
+//delete route
+app.delete("/logs/:id", async (req, res) => {
+  try {
+    await Logs.findByIdAndDelete(req.params.id);
+    res.redirect("/logs");
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
 //create route
 app.post("/logs", async (req, res) => {
   try {
