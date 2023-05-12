@@ -26,6 +26,10 @@ app.set("view engine", "jsx");
 // This line sets the render method's default location to look for a jsx file to render. Without this line of code we would have to specific the views directory everytime we use the render method
 app.set("views", "./views");
 
+// Middleware
+app.use(express.urlencoded({ extended: false }));
+//this enables the req.body in post routes
+
 // Custom Middleware
 //after app has been defined
 //use methodOverride.  We'll be adding a query parameter to our delete form named _method
@@ -38,10 +42,10 @@ app.use(express.static("public"));
 // app.use("/fruits", fruitsController);
 
 //index for log
-app.get("/", async (req, res) => {
+app.get("/logs", async (req, res) => {
   try {
     const foundLog = await Logs.find({});
-    res.render("Index", { Logs: foundLog });
+    res.render("Index", { logs: foundLog });
   } catch (err) {
     res.status(400).send(err);
   }
@@ -63,6 +67,15 @@ app.post("/logs", async (req, res) => {
   }
 });
 
+//show route
+app.get("/logs/:id", async (req, res) => {
+  try {
+    const selectLog = await Logs.findById(req.params.id);
+    res.render("Show", { logs: selectLog });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
 // Listen
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
