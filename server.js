@@ -65,12 +65,37 @@ app.delete("/logs/:id", async (req, res) => {
     res.status(400).send(err);
   }
 });
+
+//update route (PUT)
+app.put("/logs/:id", async (req, res) => {
+  try {
+    req.body.shipIsBroken = req.body.shipIsBroken === "on";
+    const updatedLog = await Logs.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.redirect(`/logs/${req.params.id}`);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 //create route
 app.post("/logs", async (req, res) => {
   try {
     req.body.shipIsBroken = req.body.shipIsBroken === "on";
     const newLog = await Logs.create(req.body);
     res.redirect("/logs");
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+//edit route
+app.get("/logs/:id/edit", async (req, res) => {
+  try {
+    //finding doc that we want to edit, and passing it to the Edit.js file//
+    const editLog = await Logs.findById(req.params.id);
+    res.render("Edit", { logs: editLog });
   } catch (err) {
     res.status(400).send(err);
   }

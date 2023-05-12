@@ -13,7 +13,7 @@ class Show extends React.Component {
             ? `The ship is broken!!!`
             : `The ship is not broken.`}
         </p>
-        {/*<p>{log.createdAt}</p>*/}
+        {/*<p>{log.timestamps.createdAt}</p>*/}
       </div>
     );
   }
